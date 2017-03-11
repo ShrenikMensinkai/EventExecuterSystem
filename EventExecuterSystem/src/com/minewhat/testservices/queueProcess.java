@@ -3,11 +3,13 @@ package com.minewhat.testservices;
 
 import com.minewhat.services.ExecutionService;
 
-public class TestExecuter {
+public class queueProcess {
 
 	public static void main(String[] args) {
-		String file = args[0];
-		String date=args[1];
+//		System.out.println(args[0]+"---- "+args[1]+"----   "+ args[2]);
+		
+		String file =args[0]+args[1];
+		String date= args[2];
 		ExecutionService executionService = new ExecutionService();
 		executionService.eventExecuter(file,date);
 	}

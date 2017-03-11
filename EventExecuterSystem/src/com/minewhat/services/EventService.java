@@ -19,7 +19,7 @@ public class EventService implements EventServiceExecuterInterface {
 	
 	FileInputStream fileInput = null;
 	BufferedReader bufferedReader = null;
-	DateFormat inputFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss"); 
+	DateFormat inputFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm"); 
 		
 	public ArrayList<Event> sortEvents(ArrayList<Event> events) {
 		for(int i=0;i<events.size();i++){
@@ -33,9 +33,7 @@ public class EventService implements EventServiceExecuterInterface {
 	
 	
 	public void processQueue(ArrayList<Event> events,String gdate){
-		
 		int length = events.size(),count=0;
-		
 		try {
 			Date date = inputFormat.parse(gdate);
 			
@@ -43,7 +41,7 @@ public class EventService implements EventServiceExecuterInterface {
 				
 				while(count<length){
 					Date sdate = new Date();
-					if(events.get(count).getDate().equals(sdate)){
+					if(compareDate(events.get(count).getDate(),sdate)==0){
 							System.out.println(dateDisplay(sdate,events.get(count)));
 							count++;
 						}
@@ -58,6 +56,22 @@ public class EventService implements EventServiceExecuterInterface {
 		}
 			
 	}
+	
+	public int compareDate(Date nd,Date od){
+		Calendar ncal = Calendar.getInstance();
+		ncal.setTime(nd);
+		
+		Calendar ocal = Calendar.getInstance();
+		ocal.setTime(od);
+		
+		String ndate =  ncal.get(Calendar.MONTH)+"/"+(ncal.get(Calendar.DATE))+"/"+ncal.get(Calendar.YEAR)+"  "+ncal.get(Calendar.HOUR)+":"+ncal.get(Calendar.MINUTE);
+		String odate =  ocal.get(Calendar.MONTH)+"/"+(ocal.get(Calendar.DATE))+"/"+ocal.get(Calendar.YEAR)+"  "+ocal.get(Calendar.HOUR)+":"+ocal.get(Calendar.MINUTE);
+		
+		
+		return ndate.compareTo(odate);
+	}
+	
+	
 	public String dateDisplay(Date date, Event event){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -98,6 +112,7 @@ public class EventService implements EventServiceExecuterInterface {
 	public boolean compGvnWithFirstTime(ArrayList<Event> events, String date){
 		try {
 				Date tempDate=inputFormat.parse(date);
+				//System.out.println(tempDate +" "+ events.get(0).getDate());
 				if((events.get(0).getDate().equals(tempDate)||events.get(0).getDate().after(tempDate))){
 					return true;
 				}						
@@ -119,8 +134,10 @@ public class EventService implements EventServiceExecuterInterface {
 			while (line != null){	
 				Event newEvent = new Event();
 				String[] param = line.split(",");
-				newEvent.setEventName(param[0]);
-				newEvent.setDate(inputFormat.parse(param[1]));
+				
+				
+				newEvent.setEventName(param[0].substring(1, param[0].length()-1));
+				newEvent.setDate(inputFormat.parse(param[1].substring(1, param[1].length()-1)));
 				if(param.length == 3){
 					newEvent.setPriority(Long.parseLong(param[2]));
 				}
