@@ -8,10 +8,10 @@ public class ExecutionService implements ExecutionServiceInterface {
 	ArrayList<Event> events = null;
 	EventService eventService = null;
 	
-	public boolean eventExecuter(String fileSource,String date)  {
+	public void eventExecuter(String fileSource,String date)  {
 		if(fileSource == null){
 			System.out.println("FileSource Cannot be Null");
-			return false;
+			
 		}
 		else{
 			eventService = new EventService();
@@ -21,10 +21,9 @@ public class ExecutionService implements ExecutionServiceInterface {
 			events = eventService.sortEventbyPriority(events);
 			if(eventService.compGvnWithFirstTime(events, date)){
 				eventService.processQueue(events,date);
-				return true;
 			}
-			
-			return false;
+			else
+				System.out.println("Earlier Event Exists then the given time");
 		}
 	}
 }
