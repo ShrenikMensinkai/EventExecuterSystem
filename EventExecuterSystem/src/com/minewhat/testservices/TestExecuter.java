@@ -6,11 +6,9 @@ import com.minewhat.services.ExecutionService;
 public class TestExecuter {
 
 	public static void main(String[] args) {
-		String file = "C:\\minewhat\\new.csv";
-		String date="3/11/2017 9:40:00";
+		String file = args[0];
+		String date=args[1];
 		ExecutionService executionService = new ExecutionService();
 		executionService.eventExecuter(file,date);
-		
 	}
-
 }

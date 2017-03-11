@@ -9,8 +9,6 @@ public class ExecutionService implements ExecutionServiceInterface {
 	EventService eventService = null;
 	
 	public boolean eventExecuter(String fileSource,String date)  {
-		
-		
 		if(fileSource == null){
 			System.out.println("FileSource Cannot be Null");
 			return false;
@@ -21,15 +19,12 @@ public class ExecutionService implements ExecutionServiceInterface {
 			events = eventService.convertTextFiletoList(fileSource);
 			events = eventService.sortEvents(events);
 			events = eventService.sortEventbyPriority(events);
-//			if(!(eventService.isEvtWithSameDatePrty(events)&&eventService.compGvnWithFirstTime(events, date))){
-//				System.out.println("false");
-//				return false;
-//			}
-			eventService.processQueue(events,date);
+			if(eventService.compGvnWithFirstTime(events, date)){
+				eventService.processQueue(events,date);
+				return true;
+			}
 			
-			
-			return true;
-			//System.out.println(events);
+			return false;
 		}
 	}
 }

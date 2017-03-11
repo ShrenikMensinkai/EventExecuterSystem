@@ -38,7 +38,7 @@ public class EventService implements EventServiceExecuterInterface {
 		
 		try {
 			Date date = inputFormat.parse(gdate);
-			System.out.println(date);
+			
 			if((events.get(length-1).getDate().after(date)||events.get(length-1).getDate().equals(date))){
 				
 				while(count<length){
@@ -49,7 +49,8 @@ public class EventService implements EventServiceExecuterInterface {
 						}
 					}
 			}
-			System.out.println("Given Date is Greater then least task Date");
+			else
+				System.out.println("Given Date is Greater then least task Date");
 		} catch (ParseException e) {
 			System.out.println("Given date is invalid");
 			
@@ -60,7 +61,7 @@ public class EventService implements EventServiceExecuterInterface {
 	public String dateDisplay(Date date, Event event){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		return "Current time ["+cal.get(Calendar.YEAR)+"/"+(cal.get(Calendar.MONTH) + 1)+"/"+cal.get(Calendar.DATE)+"  "+"" +", Event "+event.getEventName()+" Processed";
+		return "Current time ["+cal.get(Calendar.YEAR)+"/"+(cal.get(Calendar.MONTH) + 1)+"/"+cal.get(Calendar.DATE)+"  "+cal.get(Calendar.HOUR)+":"+cal.get(Calendar.MINUTE)+"]"+", Event "+event.getEventName()+" Processed";
 	}
 	
 	
@@ -84,9 +85,7 @@ public class EventService implements EventServiceExecuterInterface {
 			}
 		}return true;
 	}
-	
-	
-	
+		
 	public ArrayList<Event> swapOrders(ArrayList<Event> events, int eventIndexI, int eventIndexJ) {
 		Event temp1=null,temp2=null;
 		temp1=events.get(eventIndexI);
@@ -95,8 +94,7 @@ public class EventService implements EventServiceExecuterInterface {
 		events.set(eventIndexJ, temp1);
 		return events;
 	}
-	
-	
+		
 	public boolean compGvnWithFirstTime(ArrayList<Event> events, String date){
 		try {
 				Date tempDate=inputFormat.parse(date);
@@ -110,14 +108,7 @@ public class EventService implements EventServiceExecuterInterface {
 		System.out.println("File Contain older Events then the given Time");
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	public ArrayList<Event> convertTextFiletoList(String fileSource){
 		ArrayList<Event> events = new ArrayList<Event>();
 		try{
